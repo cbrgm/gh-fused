@@ -1,0 +1,162 @@
+#!/usr/bin/env bash
+
+# [ghpr] search for open pull requests created by user, usage: ghpr [AUTHOR] - if AUTHOR is empty, @me is used
+function ghpr {
+        local author="${1:-@me}"
+        local output=$(gh search prs \
+                --limit 100 \
+                --state="open" \
+                --archived=false \
+                --author="${author}" \
+                --json="repository,number,author,title,updatedAt" \
+                --template='{{range .}}{{tablerow .repository.nameWithOwner (printf "%v" .number | autocolor "green") .author.login .title (timeago .updatedAt)}}{{end}}')
+
+        if [[ -n "$output" ]]; then
+                local selected=$(echo $output | fzf -d ' ' \
+                        --multi \
+                        --ansi \
+                        --expect="enter" \
+                        --header=$'Enter: Open in Browser' \
+                        --prompt="Search Pull Requests by (${author}): ")
+
+                local key="$(head -1 <<<"$selected")"
+                case "$key" in
+                enter) sed 1d <<<"$selected" | awk '{print $1,$2}' | xargs -I{} sh -c 'gh browse --repo {}'
+                        ;;
+                esac
+        else
+                echo "nothing found!"
+        fi
+}
+
+# [ghi] search for open issues created by user, usage: ghi [AUTHOR] - if AUTHOR is empty, @me is used
+function ghi {
+        local author="${1:-@me}"
+        local output=$(gh search issues \
+                --limit 100 \
+                --state="open" \
+                --archived=false \
+                --author="${author}" \
+                --json="repository,number,author,title,updatedAt" \
+                --template='{{range .}}{{tablerow .repository.nameWithOwner (printf "%v" .number | autocolor "green") .author.login .title (timeago .updatedAt)}}{{end}}')
+
+        if [[ -n "$output" ]]; then
+                local selected=$(echo $output | fzf -d ' ' \
+                        --multi \
+                        --ansi \
+                        --expect="enter" \
+                        --header=$'Enter: Open in Browser' \
+                        --prompt="Search Issues Created By (${author}): ")
+
+                local key="$(head -1 <<<"$selected")"
+                case "$key" in
+                enter) sed 1d <<<"$selected" | awk '{print $1,$2}' | xargs -I{} sh -c 'gh browse --repo {}'
+                        ;;
+                esac
+        else
+                echo "nothing found!"
+        fi
+}
+
+# [ghrr] search for pull requests waiting for a review requested by user, usage: ghrr [AUTHOR] - if AUTHOR is empty, @me is used
+function ghrr {
+        local reviewer="${1:-@me}"
+        local output=$(gh search prs \
+                --limit 100 \
+                --state="open" \
+                --archived=false \
+                --review-requested="${reviewer}" \
+                --json="repository,number,author,title,updatedAt" \
+                --template='{{range .}}{{tablerow .repository.nameWithOwner (printf "%v" .number | autocolor "green") .author.login .title (timeago .updatedAt)}}{{end}}')
+
+        if [[ -n "$output" ]]; then
+                local selected=$(echo $output | fzf -d ' ' \
+                        --multi \
+                        --ansi \
+                        --expect="enter" \
+                        --header=$'Enter: Open in Browser' \
+                        --prompt="Search Reviews Requests (${reviewer}): ")
+
+                local key="$(head -1 <<<"$selected")"
+                case "$key" in
+                enter) sed 1d <<<"$selected" | awk '{print $1,$2}' | xargs -I{} sh -c 'gh browse --repo {}'
+                        ;;
+                esac
+        else
+                echo "nothing found!"
+        fi
+}
+
+# [ghspr] search for pull requests waiting for a review across all repositories owned by an owner, usage: ghspr [OWNER] - if OWNER is empty, @me is used
+function ghspr {
+        local owner="${1:-@me}"
+        local output=$(gh search prs \
+                --archived=false \
+                --json="repository,number,author,title,updatedAt" \
+                --limit 100 \
+                --owner="${owner}" \
+                --state="open" \
+                --template='{{range .}}{{tablerow .repository.nameWithOwner (printf "%v" .number | autocolor "green") .author.login .title (timeago .updatedAt)}}{{end}}')
+
+        if [[ -n "$output" ]]; then
+                local selected=$(echo $output | fzf -d ' ' \
+                        --multi \
+                        --ansi \
+                        --expect="enter" \
+                        --header=$'Enter: Open in Browser' \
+                        --prompt="Search Pull Requests owned by (${owner}): ")
+
+                local key="$(head -1 <<<"$selected")"
+                case "$key" in
+                enter) sed 1d <<<"$selected" | awk '{print $1,$2}' | xargs -I{} sh -c 'gh browse --repo {}'
+                        ;;
+                esac
+        else
+                echo "nothing found!"
+        fi
+}
+
+# [ghsi] search for open issues created across all repos owned by an owner, usage: ghsi [OWNER] - if OWNER is empty, @me is used
+function ghsi {
+        local owner="${1:-@me}"
+        local output=$(gh search issues \
+                --archived=false \
+                --json="repository,number,author,title,updatedAt" \
+                --limit 100 \
+                --owner="${owner}" \
+                --state="open" \
+                --template='{{range .}}{{tablerow .repository.nameWithOwner (printf "%v" .number | autocolor "green") .author.login .title (timeago .updatedAt)}}{{end}}')
+
+        if [[ -n "$output" ]]; then
+                local selected=$(echo $output | fzf -d ' ' \
+                        --multi \
+                        --ansi \
+                        --expect="enter" \
+                        --header=$'Enter: Open in Browser' \
+                        --prompt="Search Pull Requests owned by (${owner}): ")
+
+                local key="$(head -1 <<<"$selected")"
+                case "$key" in
+                enter) sed 1d <<<"$selected" | awk '{print $1,$2}' | xargs -I{} sh -c 'gh browse --repo {}'
+                        ;;
+                esac
+        else
+                echo "nothing found!"
+        fi
+}
+
+# [ghhelp] show this help message
+function ghhelp() {
+    echo "Usage of ghfzf aliases"
+    echo
+    echo "Collection of powerful aliases to speed up interactions with GitHub"
+    echo "Find more information at https://github.com/cbrgm/ghfzf"
+    echo
+    echo "Usage:"
+    if [ -n "$ZSH_VERSION" ]
+    then
+        grep -E '^# \[.+\]' "${(%):-%x}"
+    else
+        grep -E '^# \[.+\]' "${BASH_SOURCE[0]}"
+    fi
+}
