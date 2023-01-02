@@ -1,6 +1,6 @@
 # GH-FZF
 
-Collection of powerful aliases to speed up interactions with GitHub
+Collection of powerful aliases to speed up interactions with GitHub. It's purpose is to be a CLI clone of [github.com/pulls](https://github.com/pulls) and [github.com/issues](https://github.com/issues).
 
 ## Prerequisites?
 * [fzf](https://github.com/junegunn/fzf)
