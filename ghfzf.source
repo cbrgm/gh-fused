@@ -17,7 +17,67 @@ function ghpr {
                         --ansi \
                         --expect="enter" \
                         --header=$'Enter: Open in Browser' \
-                        --prompt="Search Pull Requests by (${author}): ")
+                        --prompt="Search Pull Requests By (${author}): ")
+
+                local key="$(head -1 <<<"$selected")"
+                case "$key" in
+                enter) sed 1d <<<"$selected" | awk '{print $1,$2}' | xargs -I{} sh -c 'gh browse --repo {}'
+                        ;;
+                esac
+        else
+                echo "nothing found!"
+        fi
+}
+
+
+# [ghpra] search for open pull requests assigned to user, usage: ghpra [ASSIGNEE] - if ASSIGNEE is empty, @me is used
+function ghpra {
+        local assignee="${1:-@me}"
+        local output=$(gh search prs \
+                --limit 100 \
+                --state="open" \
+                --archived=false \
+                --assignee="${assignee}" \
+                --json="repository,number,author,title,updatedAt" \
+                --template='{{range .}}{{tablerow .repository.nameWithOwner (printf "%v" .number | autocolor "green") .author.login .title (timeago .updatedAt)}}{{end}}')
+
+        if [[ -n "$output" ]]; then
+                local selected=$(echo $output | fzf -d ' ' \
+                        --multi \
+                        --ansi \
+                        --expect="enter" \
+                        --header=$'Enter: Open in Browser' \
+                        --prompt="Search Pull Requests Assigned To (${assignee}): ")
+
+                local key="$(head -1 <<<"$selected")"
+                case "$key" in
+                enter) sed 1d <<<"$selected" | awk '{print $1,$2}' | xargs -I{} sh -c 'gh browse --repo {}'
+                        ;;
+                esac
+        else
+                echo "nothing found!"
+        fi
+}
+
+
+# [ghprm] search for open pull requests with user mentions, usage: ghprm [USER] - if USER is empty, @me is used
+function ghprm {
+        local user="${1:-@me}"
+        local output=$(gh search prs \
+                --limit 100 \
+                --state="open" \
+                --archived=false \
+                --mentions="${user}" \
+                --json="repository,number,author,title,updatedAt" \
+                --template='{{range .}}{{tablerow .repository.nameWithOwner (printf "%v" .number | autocolor "green") .author.login .title (timeago .updatedAt)}}{{end}}')
+
+        if [[ -n "$output" ]]; then
+                local selected=$(echo $output | fzf -d ' ' \
+                        --multi \
+                        --ansi \
+                        --expect="enter" \
+                        --header=$'Enter: Open in Browser' \
+                        --prompt="Search Pull Requests With Mentions (${user}): ")
 
                 local key="$(head -1 <<<"$selected")"
                 case "$key" in
@@ -47,6 +107,66 @@ function ghi {
                         --expect="enter" \
                         --header=$'Enter: Open in Browser' \
                         --prompt="Search Issues Created By (${author}): ")
+
+                local key="$(head -1 <<<"$selected")"
+                case "$key" in
+                enter) sed 1d <<<"$selected" | awk '{print $1,$2}' | xargs -I{} sh -c 'gh browse --repo {}'
+                        ;;
+                esac
+        else
+                echo "nothing found!"
+        fi
+}
+
+
+# [ghia] search for open issues assigned to user, usage: ghia [ASSIGNEE] - if ASSIGNEE is empty, @me is used
+function ghia {
+        local assignee="${1:-@me}"
+        local output=$(gh search issues \
+                --limit 100 \
+                --state="open" \
+                --archived=false \
+                --assignee="${assignee}" \
+                --json="repository,number,author,title,updatedAt" \
+                --template='{{range .}}{{tablerow .repository.nameWithOwner (printf "%v" .number | autocolor "green") .author.login .title (timeago .updatedAt)}}{{end}}')
+
+        if [[ -n "$output" ]]; then
+                local selected=$(echo $output | fzf -d ' ' \
+                        --multi \
+                        --ansi \
+                        --expect="enter" \
+                        --header=$'Enter: Open in Browser' \
+                        --prompt="Search Issues Assigned To (${assignee}): ")
+
+                local key="$(head -1 <<<"$selected")"
+                case "$key" in
+                enter) sed 1d <<<"$selected" | awk '{print $1,$2}' | xargs -I{} sh -c 'gh browse --repo {}'
+                        ;;
+                esac
+        else
+                echo "nothing found!"
+        fi
+}
+
+
+# [ghim] search for open issues with user mentions, usage: ghim [USER] - if USER is empty, @me is used
+function ghim {
+        local user="${1:-@me}"
+        local output=$(gh search issues \
+                --limit 100 \
+                --state="open" \
+                --archived=false \
+                --mentions="${user}" \
+                --json="repository,number,author,title,updatedAt" \
+                --template='{{range .}}{{tablerow .repository.nameWithOwner (printf "%v" .number | autocolor "green") .author.login .title (timeago .updatedAt)}}{{end}}')
+
+        if [[ -n "$output" ]]; then
+                local selected=$(echo $output | fzf -d ' ' \
+                        --multi \
+                        --ansi \
+                        --expect="enter" \
+                        --header=$'Enter: Open in Browser' \
+                        --prompt="Search Issues With Mentions (${user}): ")
 
                 local key="$(head -1 <<<"$selected")"
                 case "$key" in
