@@ -37,7 +37,7 @@ function ghpr {
 		--limit 100 \
 		--owner="${owner_value}" \
 		--state="${state_value}" \
-		--template='{{range .}}{{tablerow .repository.nameWithOwner (printf "%v" .number | autocolor "green") .author.login .title .state (timeago .updatedAt)}}{{end}}')
+		--template='{{range .}}{{tablerow .repository.nameWithOwner .number .author.login .title .state (timeago .updatedAt)}}{{end}}')
 
 	if [[ -n "$output" ]]; then
 		local selected=$(echo $output | fzf -d ' ' \
@@ -91,11 +91,11 @@ function ghpra {
 	local output=$(gh search prs \
 		--archived=false \
 		--assignee="${assignee}" \
-		--json="repository,number,author,title,updatedAt" \
+		--json="repository,number,author,title,state,updatedAt" \
 		--limit 100 \
 		--owner="${owner_value}" \
 		--state="${state_value}" \
-		--template='{{range .}}{{tablerow .repository.nameWithOwner (printf "%v" .number | autocolor "green") .author.login .title (timeago .updatedAt)}}{{end}}')
+		--template='{{range .}}{{tablerow .repository.nameWithOwner .number .author.login .title .state (timeago .updatedAt)}}{{end}}')
 
 	if [[ -n "$output" ]]; then
 		local selected=$(echo $output | fzf -d ' ' \
@@ -152,7 +152,7 @@ function ghprm {
 		--mentions="${user}" \
 		--owner="${owner_value}" \
 		--state="${state_value}" \
-		--template='{{range .}}{{tablerow .repository.nameWithOwner (printf "%v" .number | autocolor "green") .author.login .title .state (timeago .updatedAt)}}{{end}}')
+		--template='{{range .}}{{tablerow .repository.nameWithOwner .number .author.login .title .state (timeago .updatedAt)}}{{end}}')
 
 	if [[ -n "$output" ]]; then
 		local selected=$(echo $output | fzf -d ' ' \
@@ -209,7 +209,7 @@ function ghi {
 		--limit 100 \
 		--owner="${owner_value}" \
 		--state="${state_value}" \
-		--template='{{range .}}{{tablerow .repository.nameWithOwner (printf "%v" .number | autocolor "green") .author.login .title .state (timeago .updatedAt)}}{{end}}')
+		--template='{{range .}}{{tablerow .repository.nameWithOwner .number .author.login .title .state (timeago .updatedAt)}}{{end}}')
 
 	if [[ -n "$output" ]]; then
 		local selected=$(echo $output | fzf -d ' ' \
@@ -265,7 +265,7 @@ function ghia {
 		--limit 100 \
 		--owner="${owner_value}" \
 		--state="${state_value}" \
-		--template='{{range .}}{{tablerow .repository.nameWithOwner (printf "%v" .number | autocolor "green") .author.login .title .state (timeago .updatedAt)}}{{end}}')
+		--template='{{range .}}{{tablerow .repository.nameWithOwner .number .author.login .title .state (timeago .updatedAt)}}{{end}}')
 
 	if [[ -n "$output" ]]; then
 		local selected=$(echo $output | fzf -d ' ' \
@@ -322,7 +322,7 @@ function ghim {
 		--mentions="${user}" \
 		--owner="${owner_value}" \
 		--state="${state_value}" \
-		--template='{{range .}}{{tablerow .repository.nameWithOwner (printf "%v" .number | autocolor "green") .author.login .title .state (timeago .updatedAt)}}{{end}}')
+		--template='{{range .}}{{tablerow .repository.nameWithOwner .number .author.login .title .state (timeago .updatedAt)}}{{end}}')
 
 	if [[ -n "$output" ]]; then
 		local selected=$(echo $output | fzf -d ' ' \
@@ -379,10 +379,12 @@ function ghrr {
 		--owner="${owner_value}" \
 		--review-requested="${reviewer}" \
 		--state="${state_value}" \
-		--template='{{range .}}{{tablerow .repository.nameWithOwner (printf "%v" .number | autocolor "green") .author.login .title .state (timeago .updatedAt)}}{{end}}')
+		--sort="updated" \
+		--template='{{range .}}{{tablerow .repository.nameWithOwner .number .author.login .title .state (timeago .updatedAt)}}{{end}}')
 
 	if [[ -n "$output" ]]; then
 		local selected=$(echo $output | fzf -d ' ' \
+			--exit-0 \
 			--multi \
 			--ansi \
 			--expect="enter" \
@@ -414,10 +416,11 @@ function ghspr {
 		--limit 100 \
 		--owner="${owner}" \
 		--state="open" \
-		--template='{{range .}}{{tablerow .repository.nameWithOwner (printf "%v" .number | autocolor "green") .author.login .title .state (timeago .updatedAt)}}{{end}}')
+		--template='{{range .}}{{tablerow .repository.nameWithOwner .number .author.login .title .state (timeago .updatedAt)}}{{end}}')
 
 	if [[ -n "$output" ]]; then
 		local selected=$(echo $output | fzf -d ' ' \
+			--exit-0 \
 			--multi \
 			--ansi \
 			--expect="enter" \
@@ -446,10 +449,10 @@ function ghsi {
 	local output=$(gh search issues \
 		--archived=false \
 		--json="repository,number,author,title,state,updatedAt" \
-		--json="repository,number,author,title,updatedAt" \
 		--limit 100 \
 		--owner="${owner}" \
-		--template='{{range .}}{{tablerow .repository.nameWithOwner (printf "%v" .number | autocolor "green") .author.login .title .state (timeago .updatedAt)}}{{end}}')
+		--state="open" \
+		--template='{{range .}}{{tablerow .repository.nameWithOwner .number .author.login .title .state (timeago .updatedAt)}}{{end}}')
 
 	if [[ -n "$output" ]]; then
 		local selected=$(echo $output | fzf -d ' ' \
