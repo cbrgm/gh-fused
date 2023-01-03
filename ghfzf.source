@@ -32,21 +32,26 @@ function ghpr {
 		--owner="${owner_value}" \
 		--archived=false \
 		--author="${author}" \
-		--json="repository,number,author,title,updatedAt" \
-		--template='{{range .}}{{tablerow .repository.nameWithOwner (printf "%v" .number | autocolor "green") .author.login .title (timeago .updatedAt)}}{{end}}')
+		--json="repository,number,author,title,url,updatedAt" \
+		| jq -r ' .[] | "\(.repository.nameWithOwner)\t\(.number)\t\(.author.login)\t\(.title)\t\(.url)\t\(.updatedAt)"' | column -t -s $'\t')
 
 	if [[ -n "$output" ]]; then
-		local selected=$(echo $output | fzf -d ' ' \
+		local selected=$(echo $output | fzf -d '\t' \
+			--exit-0 \
+			--with-nth=1,2,3,4,6 \
 			--multi \
 			--ansi \
-			--expect="enter" \
-			--header=$'Enter: Open in Browser' \
+			--expect="enter,ctrl-y" \
+			--header=$'Enter: Open in Browser, Ctrl-y: Copy/Yank URLs' \
 			--prompt="Search Pull Requests By (${author}): ")
 
 		local key="$(head -1 <<<"$selected")"
 		case "$key" in
 		enter)
 			sed 1d <<<"$selected" | awk '{print $1,$2}' | xargs -I{} sh -c 'gh browse --repo {}'
+			;;
+		ctrl-y)
+			sed 1d <<<"$selected" | awk '{print $5}' | pbcopy
 			;;
 		esac
 	else
