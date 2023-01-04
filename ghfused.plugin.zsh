@@ -1,0 +1,1 @@
+. "$(dirname "${(%):-%N}")/ghfused.source"

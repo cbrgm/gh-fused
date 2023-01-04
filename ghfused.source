@@ -1,0 +1,134 @@
+#!/usr/bin/env bash
+
+# [ghspr] Fuzzy searches for pull requests and allows the user to open them in a web browser.
+function ghspr {
+	local output=$(gh search prs \
+		--json="url,author,title,state,updatedAt" \
+		--template='{{range .}}{{tablerow .url .author.login .title .state (timeago .updatedAt)}}{{end}}' "$@")
+
+	if [[ -n "$output" ]]; then
+		local selected=$(echo $output | fzf -d ' ' \
+			--exit-0 \
+			--multi \
+			--ansi \
+			--expect="enter,ctrl-d" \
+			--header=$'Enter: Open in Browser, Ctrl-d: Open Diff in Browser, Ctrl-p: Toggle Preview, Ctrl-u: Unassign yourself, Ctrl-s: Assign yourself' \
+			--inline-info \
+			--bind='ctrl-p:toggle-preview' \
+			--bind='ctrl-s:execute(gh pr edit --add-assignee=@me {1})' \
+			--bind='ctrl-u:execute(gh pr edit --remove-assignee=@me {1})' \
+			--bind='ctrl-v:execute(gh pr diff {1})' \
+			--preview='GH_FORCE_TTY=$FZF_PREVIEW_COLUMNS gh pr view {1}' \
+			--preview-window 'right:50%:hidden:wrap' \
+			--prompt="Search: ")
+
+		local key="$(head -1 <<<"$selected")"
+		local args="$(sed 1d <<<"$selected" | awk '{print $1}')"
+
+		case "$key" in
+		enter)
+			echo $args | xargs -I{} sh -c 'gh pr view --web {}'
+			;;
+		ctrl-d)
+			echo $args | xargs -I{} sh -c 'gh pr diff --web {}'
+			;;
+		esac
+	else
+		echo "nothing found!"
+	fi
+}
+
+# [ghpr] Search for open pull requests created by the current user.
+alias ghpr="ghspr --sort=updated --limit=100 --author=@me --archived=false --state=open"
+# [ghpra] Search for open pull requests assigned to the current user.
+alias ghpra="ghspr --sort=updated --limit=100 --assignee=@me --archived=false --state=open"
+# [ghprm] Search for open pull requests with mentions of the current user.
+alias ghprm="ghspr --sort=updated --limit 100 --mentions=@me --archived=false --state=open"
+# [ghrr] Search for open pull requests with review requests wanted from the current user.
+alias ghrr="ghspr --sort=updated --limit 100 --review-requested=@me --archived=false --state=open"
+
+# [gshi] Fuzzy searches for issues and allows the user to open them in a browser
+function ghsi {
+	local output=$(gh search issues \
+		--json="url,author,title,state,updatedAt" \
+		--template='{{range .}}{{tablerow .url .author.login .title .state (timeago .updatedAt)}}{{end}}' "$@")
+
+	if [[ -n "$output" ]]; then
+		local selected=$(echo $output | fzf -d ' ' \
+			--exit-0 \
+			--multi \
+			--ansi \
+			--expect="enter,ctrl-d" \
+			--header=$'Enter: Open in Browser, Ctrl-p: Toggle Preview' \
+			--inline-info \
+			--bind='ctrl-p:toggle-preview' \
+			--preview='GH_FORCE_TTY=$FZF_PREVIEW_COLUMNS gh issue view {1}' \
+			--preview-window 'right:50%:hidden:wrap' \
+			--prompt="Search: ")
+
+		local key="$(head -1 <<<"$selected")"
+		local args="$(sed 1d <<<"$selected" | awk '{print $1}')"
+
+		case "$key" in
+		enter)
+			echo $args | xargs -I{} sh -c 'gh issue view --web {}'
+			;;
+		esac
+	else
+		echo "nothing found!"
+	fi
+}
+
+# [ghi] Search for open issues created by the current user.
+alias ghi="ghsi --sort=updated --limit=100 --author=@me --archived=false --state=open"
+# [ghia] Search for open issues assigned to the current user.
+alias ghia="ghsi --sort=updated --limit=100 --assignee=@me --archived=false --state=open"
+# [ghim] Search for open issues with mentions of the current user.
+alias ghim="ghsi --sort=updated --limit 100 --mentions=@me --archived=false --state=open"
+
+# [ghsr] Fuzzy searches for repositories and allows the user to open them in a browser
+function ghsr {
+	local output=$(gh search repos \
+		--json="url,description,stargazersCount,forksCount,visibility,updatedAt" \
+		--template='{{range .}}{{tablerow .url .description .stargazersCount .forksCount .visibility (timeago .updatedAt)}}{{end}}' "$@")
+
+	if [[ -n "$output" ]]; then
+		local selected=$(echo $output | fzf -d ' ' \
+			--exit-0 \
+			--multi \
+			--ansi \
+			--expect="enter,ctrl-d" \
+			--header=$'Enter: Open in Browser, Ctrl-p: Toggle Preview' \
+			--inline-info \
+			--bind='ctrl-p:toggle-preview' \
+			--preview='GH_FORCE_TTY=$FZF_PREVIEW_COLUMNS gh repo view {1}' \
+			--preview-window 'right:50%:hidden:wrap' \
+			--prompt="Search: ")
+
+		local key="$(head -1 <<<"$selected")"
+		local args="$(sed 1d <<<"$selected" | awk '{print $1}')"
+
+		case "$key" in
+		enter)
+			echo $args | xargs -I{} sh -c 'gh repo view --web {}'
+			;;
+		esac
+	else
+		echo "nothing found!"
+	fi
+}
+
+# [ghhelp] show this help message
+function ghhelp() {
+	echo "Usage of ghfused aliases"
+	echo
+	echo "Collection of powerful aliases to speed up interactions with GitHub"
+	echo "Find more information at https://github.com/cbrgm/ghfused"
+	echo
+	echo "Usage:"
+	if [ -n "$ZSH_VERSION" ]; then
+		grep -E '^# \[.+\]' "${(%):-%x}"
+	else
+		grep -E '^# \[.+\]' "${BASH_SOURCE[0]}"
+	fi
+}

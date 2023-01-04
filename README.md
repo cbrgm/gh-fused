@@ -1,33 +1,37 @@
 # gh-fzf
 
-Collection of powerful aliases to speed up interactions with GitHub. It's purpose is to be a CLI clone of [github.com/pulls](https://github.com/pulls) and [github.com/issues](https://github.com/issues). 🚀
+Collection of powerful aliases combining `gh` and `fzf` to speed up interactions with GitHub. It's purpose is to be a CLI clone of [github.com/pulls](https://github.com/pulls) and [github.com/issues](https://github.com/issues) and it can be so much more!.
+
+Try them out and you won't live without them anymore 🚀
 
 ## Prerequisites?
+
 * [fzf](https://github.com/junegunn/fzf)
 * [gh](https://github.com/cli/cli)
+* [gnu core utils](https://www.gnu.org/software/coreutils/)
 * [jq](https://stedolan.github.io/jq/)
 
 ## Installation
 
-You can directly download the [`ghfzf.source`](https://rawgit.com/cbrgm/ghfzf/master/ghfzf.source)
+You can directly download the [`ghfused.source`](https://rawgit.com/cbrgm/gh-fused/master/ghfused.source)
 and save it in some directory.
 
 Download:
 ```bash
-curl -LO https://rawgit.com/cbrgm/gh-fzf/master/ghfzf.source
+curl -LO https://rawgit.com/cbrgm/gh-fzf/master/ghfused.source
 ```
 
 then add to your .bashrc/.zshrc file:
 ```bash
-[ -f <path-to>/ghfzf.source ] && source <path-to>/ghfzf.source
+[ -f <path-to>/ghfused.source ] && source <path-to>/ghfused.source
 ```
 
-Alternatively you can install `ghfzf` using the ZSH plugin manager of your
+Alternatively you can install `ghfused` using the ZSH plugin manager of your
 choice.
 
 ## Usage
 
-Usage of `ghfzf` aliases
+Usage of `ghfused` aliases
 
 ```
 Usage:
