@@ -31,117 +31,52 @@ choice.
 
 ## Usage
 
-Usage of `ghfused` aliases
+Usage of `ghfused` aliases (you can check them by running `ghhelp` once installed)
 
 ```
-Usage:
+Usage of ghfused aliases
 
-# [ghpr] search for open pull requests created by user, usage: ghpr [AUTHOR] - if AUTHOR is empty, @me is used
-# [ghpra] search for open pull requests assigned to user, usage: ghpra [ASSIGNEE] - if ASSIGNEE is empty, @me is used
-# [ghprm] search for open pull requests with user mentions, usage: ghprm [USER] - if USER is empty, @me is used
-# [ghi] search for open issues created by user, usage: ghi [AUTHOR] - if AUTHOR is empty, @me is used
-# [ghia] search for open issues assigned to user, usage: ghia [ASSIGNEE] - if ASSIGNEE is empty, @me is used
-# [ghim] search for open issues with user mentions, usage: ghim [USER] - if USER is empty, @me is used
-# [ghrr] search for pull requests waiting for a review requested by user, usage: ghrr [AUTHOR] - if AUTHOR is empty, @me is used
-# [ghspr] search for pull requests waiting for a review across all repositories owned by an owner, usage: ghspr [OWNER] - if OWNER is empty, @me is used
-# [ghsi] search for open issues created across all repos owned by an owner, usage: ghsi [OWNER] - if OWNER is empty, @me is used
+Collection of powerful aliases to speed up interactions with GitHub
+Find more information at https://github.com/cbrgm/ghfused
+
+Usage:
+# [ghspr] Fuzzy searches for pull requests and allows the user to open them in a web browser.
+# [ghpr] Search for open pull requests created by the current user.
+# [ghpra] Search for open pull requests assigned to the current user.
+# [ghprm] Search for open pull requests with mentions of the current user.
+# [ghrr] Search for open pull requests with review requests wanted from the current user.
+# [gshi] Fuzzy searches for issues and allows the user to open them in a browser
+# [ghi] Search for open issues created by the current user.
+# [ghia] Search for open issues assigned to the current user.
+# [ghim] Search for open issues with mentions of the current user.
+# [ghsr] Fuzzy searches for repositories and allows the user to open them in a browser
 # [ghhelp] show this help message
 ```
 
-### Aliases
+## Explanations
 
-#### ghpr
+### Github Search enchanced!
 
-```bash
-# [ghpr] Search for open pull requests created by a specified user or the current user if no author is provided
-# Flags:
-#   --state  specifies the state of the pull request (open or closed). Default is open.
-#   --owner  specifies the owner of the repository for the pull request.
-# Usage: ghpr [FLAGS] [AUTHOR]
-```
+The three aliases
 
-#### ghpra
+* `ghspr` ([gh]ithub [s]earch [p]ull [r]equest)
+* `ghsi` ([gh]ithub [s]earch [i]ssue)
+* `ghsr` ([gh]ithub [s]earch [r]epository)
 
-```bash
-# [ghpra] Search for open pull requests assigned to a specified user or the current user if no assignee is provided
-# Flags:
-#   --state  specifies the state of the pull request (open or closed). Default is open.
-#   --owner  specifies the owner of the repository for the pull request.
-# Usage: ghpra [FLAGS] [ASSIGNEE]
-```
+are equal to the default search subcommands provided by the `gh` command, but combines them with fuzzy searching with `fzf`.
 
-#### ghprm
+### Fine-tuned defaults for PRs!
 
-```bash
-# [ghprm] Search for open pull requests with mentions of a specified user or the current user if no user is provided
-# Flags:
-#   --state  specifies the state of the pull request (open or closed). Default is open.
-#   --owner  specifies the owner of the repository for the pull request.
-# Usage: ghprm [FLAGS] [USER]
-```
+* `ghpr` Search for open pull requests created by the current user.
+* `ghpra` Search for open pull requests assigned to the current user.
+* `ghprm` Search for open pull requests with mentions of the current user.
+* `ghrr` Search for open pull requests with review requests wanted from the current user.
 
-#### ghi
+### Fine-tuned defaults for issues!
 
-```bash
-# [ghi] Search for open issues created by a specified user or the current user if no author is provided
-# Flags:
-#   --state  specifies the state of the issue (open or closed). Default is open.
-#   --owner  specifies the owner of the repository for the issue.
-# Usage: ghi [FLAGS] [AUTHOR]
-```
-
-#### ghia
-
-```bash
-# [ghia] Search for open issues assigned to a specified user or the current user if no assignee is provided
-# Flags:
-#   --state  specifies the state of the issue (open or closed). Default is open.
-#   --owner  specifies the owner of the repository for the issue.
-# Usage: ghia [FLAGS] [ASSIGNEE]
-```
-
-#### ghim
-
-```bash
-# [ghim] Search for open issues with mentions of a specified user or the current user if no user is provided
-# Flags:
-#   --state  specifies the state of the issue (open or closed). Default is open.
-#   --owner  specifies the owner of the repository for the issue.
-# Usage: ghiu [FLAGS] [USER]
-```
-
-#### ghrr
-
-```bash
-# [ghrr] Search for open pull requests with review requests made by a specified user or the current user if no user is provided
-# Flags:
-#   --state  specifies the state of the pull request (open or closed). Default is open.
-#   --owner  specifies the owner of the repository for the pull request.
-# Usage: ghrr [FLAGS] [AUTHOR]
-```
-
-#### ghspr
-
-```bash
-# [ghspr] Search for pull requests waiting for review across all repositories owned by an owner
-#
-# Parameters:
-# - OWNER: owner of the repositories to search in, defaults to "@me" if not provided
-#
-# Usage: ghspr [OWNER]
-```
-
-#### ghsi
-
-```bash
-# [ghsi] Search for open issues across all repositories owned by an owner
-#
-# Parameters:
-# - OWNER: owner of the repositories to search in, defaults to "@me" if not provided
-#
-# Usage: ghsi [OWNER]
-```
-
+* `ghi` Search for open issues created by the current user.
+* `ghia` Search for open issues assigned to the current user.
+* `ghim` Search for open issues with mentions of the current user.
 
 ## Contributing & License
 
