@@ -1,4 +1,4 @@
-# gh-fzf
+# gh-fused
 
 Collection of powerful aliases combining `gh` and `fzf` to speed up interactions with GitHub. It's purpose is to be a CLI clone of [github.com/pulls](https://github.com/pulls) and [github.com/issues](https://github.com/issues) and it can be so much more!.
 
@@ -18,7 +18,7 @@ and save it in some directory.
 
 Download:
 ```bash
-curl -LO https://rawgit.com/cbrgm/gh-fzf/master/ghfused.source
+curl -LO https://rawgit.com/cbrgm/gh-fused/master/ghfused.source
 ```
 
 then add to your .bashrc/.zshrc file:
@@ -82,4 +82,4 @@ are equal to the default search subcommands provided by the `gh` command, but co
 
 Feel free to submit changes! See
 the [Contributing Guide](https://github.com/cbrgm/contributing/blob/master/CONTRIBUTING.md). This project is open-source
-and is developed under the terms of the [Apache 2.0 License](https://github.com/cbrgm/gh-fzf/blob/master/LICENSE).
+and is developed under the terms of the [Apache 2.0 License](https://github.com/cbrgm/gh-fused/blob/master/LICENSE).
