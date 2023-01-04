@@ -78,6 +78,10 @@ are equal to the default search subcommands provided by the `gh` command, but co
 * `ghia` Search for open issues assigned to the current user.
 * `ghim` Search for open issues with mentions of the current user.
 
+## Flags
+
+Supports all options that `gh search repos/issues/prs` supports, except for `--json` and `--template` which are being utilized by this extension.
+
 ## Contributing & License
 
 Feel free to submit changes! See
