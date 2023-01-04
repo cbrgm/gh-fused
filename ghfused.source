@@ -17,7 +17,6 @@ function ghspr {
 			--bind='ctrl-p:toggle-preview' \
 			--bind='ctrl-s:execute(gh pr edit --add-assignee=@me {1})' \
 			--bind='ctrl-u:execute(gh pr edit --remove-assignee=@me {1})' \
-			--bind='ctrl-v:execute(gh pr diff {1})' \
 			--preview='GH_FORCE_TTY=$FZF_PREVIEW_COLUMNS gh pr view {1}' \
 			--preview-window 'right:50%:hidden:wrap' \
 			--prompt="Search: ")
@@ -59,9 +58,11 @@ function ghsi {
 			--multi \
 			--ansi \
 			--expect="enter,ctrl-d" \
-			--header=$'Enter: Open in Browser, Ctrl-p: Toggle Preview' \
+			--header=$'Enter: Open in Browser, Ctrl-p: Toggle Preview, Ctrl-u: Unassign yourself, Ctrl-s: Assign yourself' \
 			--inline-info \
 			--bind='ctrl-p:toggle-preview' \
+			--bind='ctrl-s:execute(gh issue edit --add-assignee=@me {1})' \
+			--bind='ctrl-u:execute(gh issue edit --remove-assignee=@me {1})' \
 			--preview='GH_FORCE_TTY=$FZF_PREVIEW_COLUMNS gh issue view {1}' \
 			--preview-window 'right:50%:hidden:wrap' \
 			--prompt="Search: ")

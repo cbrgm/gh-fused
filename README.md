@@ -13,12 +13,12 @@ Try them out and you won't live without them anymore 🚀
 
 ## Installation
 
-You can directly download the [`ghfused.source`](https://rawgit.com/cbrgm/gh-fused/master/ghfused.source)
+You can directly download the [`ghfused.source`](https://raw.githubusercontent.com/cbrgm/gh-fused/main/ghfused.source)
 and save it in some directory.
 
 Download:
 ```bash
-curl -LO https://rawgit.com/cbrgm/gh-fused/master/ghfused.source
+curl -LO https://raw.githubusercontent.com/cbrgm/gh-fused/main/ghfused.source
 ```
 
 then add to your .bashrc/.zshrc file:
