@@ -12,7 +12,7 @@ function ghspr {
 			--multi \
 			--ansi \
 			--expect="enter" \
-			--header=$'Enter: Send to stdout, ctrl-b Open in Browser, ctrl-d: Open Diff in Browser, ctrl-p: Toggle Preview' \
+			--header=$'enter: Send to stdout, ctrl-b: Open in Browser, ctrl-d: Open Diff in Browser, ctrl-p: Toggle Preview' \
 			--inline-info \
 			--bind='ctrl-p:toggle-preview' \
 			--bind='ctrl-b:execute(echo {+1} | tr " " "\n" | xargs -I{x} sh -c "gh pr view --web {x}")+deselect-all' \
@@ -56,7 +56,7 @@ function ghsi {
 			--multi \
 			--ansi \
 			--expect="enter" \
-			--header=$'Enter: Send to stdout, ctrl-b: Open in Browser, ctrl-p: Toggle Preview' \
+			--header=$'enter: Send to stdout, ctrl-b: Open in Browser, ctrl-p: Toggle Preview' \
 			--inline-info \
 			--bind='ctrl-p:toggle-preview' \
 			--bind='ctrl-b:execute(echo {+1} | tr " " "\n" | xargs -I{x} sh -c "gh issue view --web {x}")+deselect-all' \
