@@ -11,11 +11,11 @@ function ghspr {
 			--exit-0 \
 			--multi \
 			--ansi \
-			--expect="ctrl-c,ctrl-o,esc" \
-			--header=$'Enter: Open in Browser, ctrl-d: Open Diff in Browser, ctrl-p: Toggle Preview, ctrl-o: Send to stdout' \
+			--expect="enter" \
+			--header=$'Enter: Send to stdout, ctrl-b Open in Browser, ctrl-d: Open Diff in Browser, ctrl-p: Toggle Preview' \
 			--inline-info \
 			--bind='ctrl-p:toggle-preview' \
-			--bind='enter:execute(echo {+1} | tr " " "\n" | xargs -I{x} sh -c "gh pr view --web {x}")+deselect-all' \
+			--bind='ctrl-b:execute(echo {+1} | tr " " "\n" | xargs -I{x} sh -c "gh pr view --web {x}")+deselect-all' \
 			--bind='ctrl-d:execute(echo {+1} | tr " " "\n" | xargs -I{x} sh -c "gh pr diff --web {x}")+deselect-all' \
 			--preview='GH_FORCE_TTY=$FZF_PREVIEW_COLUMNS gh pr view {1}' \
 			--preview-window 'right:50%:hidden:wrap' \
@@ -25,7 +25,7 @@ function ghspr {
 		local args="$(sed 1d <<<"$selected" | awk '{print $1}')"
 
 		case "$key" in
-		ctrl-o)
+		enter)
 			echo $args
 			;;
 		esac
@@ -55,12 +55,11 @@ function ghsi {
 			--exit-0 \
 			--multi \
 			--ansi \
-			--expect="ctrl-c,ctrl-o,esc" \
-			--header=$'Enter: Open in Browser, ctrl-p: Toggle Preview, ctrl-o: Send to stdout' \
+			--expect="enter" \
+			--header=$'Enter: Send to stdout, ctrl-b: Open in Browser, ctrl-p: Toggle Preview' \
 			--inline-info \
 			--bind='ctrl-p:toggle-preview' \
-			--bind='enter:execute(echo {+1} | tr " " "\n" | xargs -I{x} sh -c "gh issue view --web {x}")+deselect-all' \
-			--bind='ctrl-d:execute(echo {+1} | tr " " "\n" | xargs -I{x} sh -c "gh issue diff --web {x}")+deselect-all' \
+			--bind='ctrl-b:execute(echo {+1} | tr " " "\n" | xargs -I{x} sh -c "gh issue view --web {x}")+deselect-all' \
 			--preview='GH_FORCE_TTY=$FZF_PREVIEW_COLUMNS gh issue view {1}' \
 			--preview-window 'right:50%:hidden:wrap' \
 			--prompt="Search: ")
@@ -69,7 +68,7 @@ function ghsi {
 		local args="$(sed 1d <<<"$selected" | awk '{print $1}')"
 
 		case "$key" in
-		ctrl-o)
+		enter)
 			echo $args
 			;;
 		esac
@@ -97,11 +96,11 @@ function ghsr {
 			--exit-0 \
 			--multi \
 			--ansi \
-			--expect="ctrl-c,ctrl-o,esc" \
-			--header=$'Enter: Open in Browser, ctrl-p: Toggle Preview, ctrl-o: Send to stdout' \
+			--expect="enter" \
+			--header=$'enter: Send to stdout, ctrl-b: Open in Browser, ctrl-p: Toggle Preview' \
 			--inline-info \
 			--bind='ctrl-p:toggle-preview' \
-			--bind='enter:execute(echo {+1} | tr " " "\n" | xargs -I{x} sh -c "gh repo view --web {x}")+deselect-all' \
+			--bind='ctrl-b:execute(echo {+1} | tr " " "\n" | xargs -I{x} sh -c "gh repo view --web {x}")+deselect-all' \
 			--preview='GH_FORCE_TTY=$FZF_PREVIEW_COLUMNS gh repo view {1}' \
 			--preview-window 'right:50%:hidden:wrap' \
 			--prompt="Search: ")
@@ -110,7 +109,7 @@ function ghsr {
 		local args="$(sed 1d <<<"$selected" | awk '{print $1}')"
 
 		case "$key" in
-		ctrl-o)
+		enter)
 			echo $args
 			;;
 		esac
