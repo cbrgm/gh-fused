@@ -83,13 +83,19 @@ are equal to the default search subcommands provided by the `gh` command, but co
 Fuzzy search open PRs which requested a review from you, approve.
 
 ```bash
+ # long
  ghspr --sort=updated --limit 100 --review-requested=@me --archived=false --state=open | xargs -I{} sh -c 'gh pr review --approve {}'
+ # short
+ ghrr | xargs -I{} sh -c 'gh pr review --approve {}'
 ```
 
 Fuzzy search open PRs which requested a review from you, approve and merge.
 
 ```bash
+ # long
  ghspr --sort=updated --limit 100 --review-requested=@me --archived=false --state=open | xargs -I{} sh -c 'gh pr review --approve {} && gh pr merge --squash {}'
+ # short
+ ghrr | xargs -I{} sh -c 'gh pr review --approve {} && gh pr merge --squash {}'
 ```
 
 ## Flags
