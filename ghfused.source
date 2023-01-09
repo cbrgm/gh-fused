@@ -44,7 +44,7 @@ alias ghprm="ghspr --sort=updated --limit 100 --mentions=@me --archived=false --
 # [ghrr] Search for open pull requests with review requests wanted from the current user.
 alias ghrr="ghspr --sort=updated --limit 100 --review-requested=@me --archived=false --state=open"
 
-# [gshi] Fuzzy searches for issues and allows the user to open them in a browser
+# [ghsi] Fuzzy searches for issues and allows the user to open them in a browser
 function ghsi {
 	local output=$(gh search issues \
 		--json="url,author,title,state,updatedAt" \
