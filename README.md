@@ -78,6 +78,20 @@ are equal to the default search subcommands provided by the `gh` command, but co
 * `ghia` Search for open issues assigned to the current user.
 * `ghim` Search for open issues with mentions of the current user.
 
+## Some handy examples
+
+Fuzzy search open PRs which requested a review from you, approve.
+
+```bash
+ ghspr --sort=updated --limit 100 --review-requested=@me --archived=false --state=open | xargs -I{} sh -c 'gh pr review --approve {}'
+```
+
+Fuzzy search open PRs which requested a review from you, approve and merge.
+
+```bash
+ ghspr --sort=updated --limit 100 --review-requested=@me --archived=false --state=open | xargs -I{} sh -c 'gh pr review --approve {} && gh pr merge --squash {}'
+```
+
 ## Flags
 
 Supports all options that `gh search repos/issues/prs` supports, except for `--json` and `--template` which are being utilized by this extension.
