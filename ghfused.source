@@ -100,6 +100,7 @@ function ghsr {
 			--header=$'enter: Send to stdout, ctrl-b: Open in Browser, ctrl-p: Toggle Preview' \
 			--inline-info \
 			--bind='ctrl-p:toggle-preview' \
+			--bind='ctrl-a:select-all' \
 			--bind='ctrl-b:execute(echo {+1} | tr " " "\n" | xargs -I{x} sh -c "gh repo view --web {x}")+deselect-all' \
 			--preview='GH_FORCE_TTY=$FZF_PREVIEW_COLUMNS gh repo view {1}' \
 			--preview-window 'right:50%:hidden:wrap' \
@@ -124,7 +125,7 @@ function ghhelp() {
 	echo "Usage of ghfused aliases"
 	echo
 	echo "Collection of powerful aliases to speed up interactions with GitHub"
-	echo "Find more information at https://github.com/cbrgm/ghfused"
+	echo "Find more information at https://github.com/cbrgm/gh-fused"
 	echo
 	echo "Usage:"
 	if [ -n "$ZSH_VERSION" ]; then
